@@ -22,37 +22,126 @@ namespace LinqExercise
 
             //TODO: Print the Sum of numbers
 
+
+            var sumOfNumbers = numbers.Sum();
+
+            Console.WriteLine($"Sum:{sumOfNumbers}");
+
+
             //TODO: Print the Average of numbers
 
+
+            var avgOfNumbers = numbers.Average();
+
+
+            Console.WriteLine($"\nAverage:{avgOfNumbers}");
+
+
             //TODO: Order numbers in ascending order and print to the console
+            var ascendOrder = numbers.OrderBy(x => x).ToArray();
+
+            Console.WriteLine("\nAcending order:");
+            PrintNumbers(ascendOrder);
+
 
             //TODO: Order numbers in descending order and print to the console
 
+            var descendOrder = numbers.OrderByDescending(x => x).ToArray();
+
+            Console.WriteLine("\nDescending order:");
+            PrintNumbers(descendOrder);
+
+
             //TODO: Print to the console only the numbers greater than 6
+
+            var greaterThan6 = numbers.Where(x => x > 6).ToArray();
+            Console.WriteLine("\nNumbers greater than 6:");
+            PrintNumbers(greaterThan6);
 
             //TODO: Order numbers in any order (ascending or desc) but only print 4 of them **foreach loop only!**
 
+            var ascendOrderShort = numbers.OrderBy(x => x).ToArray();
+            var only4 = ascendOrderShort.Skip(6);
+            Console.WriteLine("\n4 items: ");
+            foreach (var x in only4)
+            {
+                Console.WriteLine(x);
+            }
+
+
             //TODO: Change the value at index 4 to your age, then print the numbers in descending order
+
+            var insertAge = numbers.Select((number, index) =>  index == 4? number = 27:number)
+                .OrderByDescending(x => x).ToArray();
+            Console.WriteLine("\nAge added to list");
+            PrintNumbers(insertAge);
 
             // List of employees ****Do not remove this****
             var employees = CreateEmployees();
 
             //TODO: Print all the employees' FullName properties to the console only if their FirstName starts with a C OR an S and order this in ascending order by FirstName.
+ Console.WriteLine("\nFirst name starts with S or C:");
+
+            var firstNameCOrS = employees.Where(employee => employee.FirstName.StartsWith('S') || employee.FirstName.StartsWith('C')).OrderBy(employee => employee.FirstName).ToList();
+
+            foreach (var employee in firstNameCOrS)
+
+            {
+                Console.WriteLine($"{employee.FullName} Age: {employee.Age}");
+            }
+
+
+
+
+
 
             //TODO: Print all the employees' FullName and Age who are over the age 26 to the console and order this by Age first and then by FirstName in the same result.
 
+            var olderThan26 = employees.Where(employee => employee.Age > 26).OrderBy(employee => employee.Age).ThenBy(employee => employee.FirstName).ToList();
+
+
+
+            Console.WriteLine("\nOlder Than 26:");
+            foreach (var employee in olderThan26)
+
+            {
+                Console.WriteLine($"{employee.FullName} Age: {employee.Age}");
+            }
+
             //TODO: Print the Sum of the employees' YearsOfExperience if their YOE is less than or equal to 10 AND Age is greater than 35.
 
+            var YOE = employees.Where(x => x.YearsOfExperience <= 10 && x.Age > 35).ToList();
+
+            Console.WriteLine($"\nTotal years of experience: {YOE.Sum(x => x.YearsOfExperience)}");
+
+
+
             //TODO: Now print the Average of the employees' YearsOfExperience if their YOE is less than or equal to 10 AND Age is greater than 35.
+
+            Console.WriteLine($"\nAverage years of experience: {YOE.Average(x => x.YearsOfExperience)}");
 
             //TODO: Add an employee to the end of the list without using employees.Add()
 
 
+            employees = employees.Append(new Employee("Kaitlyn", "Thomas", 27, 6)).ToList();
+
+            employees.ForEach(person => Console.WriteLine(person.FullName));
+
+      
             Console.WriteLine();
 
             Console.ReadLine();
         }
+         public static void PrintNumbers(int[] array)
+            {
 
+                foreach (var number in array)
+                {
+                    Console.WriteLine($"{number}");
+                }
+
+            }
+        
         #region CreateEmployeesMethod
         private static List<Employee> CreateEmployees()
         {
